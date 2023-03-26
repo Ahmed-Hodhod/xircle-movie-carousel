@@ -1,0 +1,6 @@
+type Movies @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  title: String
+  description: String
+  year: Int
+} 
