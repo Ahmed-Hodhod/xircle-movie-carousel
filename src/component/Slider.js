@@ -1,30 +1,35 @@
 import {Animated, FlatList, StyleSheet, Text, View} from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import Slides from '../data';
 import SlideItem from './SlideItem';
 import Pagination from './Pagination';
-import {Movies} from '../models';
+import { Movies } from '../models';
+import { DataStore, Storage } from 'aws-amplify';
+
 
 
 const Slider = () => {
+  const [index, setIndex] = useState(0);
+  const scrollX = useRef(new Animated.Value(0)).current;
 
-  const [movies, setMovies] = useState([ {
-        id: 1,
-        img: require('../assets/watch7.jpeg'),
-        title: 'Apple Watch Series 7',
-        description: 'The future of health is on your wrist',
-        price: '$399',
-      },]);
-  useEffect(() => {
+  const [movies, setMovies] = useState([]);
 
-    //query the initial todolist and subscribe to data updates
-    const subscription = DataStore.observeQuery(Movies).subscribe((snapshot) => {
-      //isSynced can be used to show a loading spinner when the list is being loaded. 
+  useEffect( async () => {
+   // await DataStore.clear(); 
+
+  //   await DataStore.save(
+  //     new Movies({
+  //     "title": "title",
+  //     "description": "description",
+  //     "year": 2022
+  //   })
+  // );
+    const subscription =   DataStore.observeQuery(Movies).subscribe((snapshot) => {
       const { items, isSynced } = snapshot;
       setMovies(items);
+    
     });
 
-    //unsubscribe to data updates when component is destroyed so that you don’t introduce a memory leak.
     return function cleanup() {
       subscription.unsubscribe();
     }
@@ -32,8 +37,6 @@ const Slider = () => {
   }, []);
 
 
-  const [index, setIndex] = useState(0);
-  const scrollX = useRef(new Animated.Value(0)).current;
 
   const handleOnScroll = event => {
     Animated.event(
@@ -73,84 +76,14 @@ const Slider = () => {
         onScroll={handleOnScroll}
         onViewableItemsChanged={handleOnViewableItemsChanged}
         viewabilityConfig={viewabilityConfig}
-        keyExtractor={({id})=> id}
       />
       <Pagination data={movies} scrollX={scrollX} index={index} />
+     
+
+
     </View>
   );
 };
-
-
-// const TodoList = () => {
-//   const [todos, setTodos] = useState([]);
-
-//   useEffect(() => {
-
-//     //query the initial todolist and subscribe to data updates
-//     const subscription = DataStore.observeQuery(Todo).subscribe((snapshot) => {
-//       //isSynced can be used to show a loading spinner when the list is being loaded. 
-//       const { items, isSynced } = snapshot;
-//       setTodos(items);
-//     });
-
-//     //unsubscribe to data updates when component is destroyed so that you don’t introduce a memory leak.
-//     return function cleanup() {
-//       subscription.unsubscribe();
-//     }
-
-//   }, []);
-
-  
-//   async function deleteTodo(todo) {
-//     try {
-//       await DataStore.delete(todo);
-//     } catch (e) {
-//       console.log('Delete failed: $e');
-//     }
-//   }
-//   async function setComplete(updateValue, todo) {
-//     //update the todo item with updateValue
-//     await DataStore.save(
-//       Todo.copyOf(todo, updated => {
-//         updated.isComplete = updateValue
-//       })
-//     );
-//   }
-
-//   const renderItem = ({ item }) => (
-//     <Pressable
-//       onLongPress={() => {
-//         deleteTodo(item);
-//       }}
-//       onPress={() => {
-//         setComplete(!item.isComplete, item);
-//       }}
-//       style={styles.todoContainer}
-//     >
-//       <Text>
-//         <Text style={styles.todoHeading}>{item.name}</Text>
-//         {`\n${item.description}`}
-//       </Text>
-//       <Text
-//         style={[styles.checkbox, item.isComplete && styles.completedCheckbox]}
-//       >
-//         {item.isComplete ? '✓' : ''}
-//       </Text>
-//     </Pressable>
-//   );
-
-//   return (
-//     <FlatList
-//       data={todos}
-//       keyExtractor={({ id }) => id}
-//       renderItem={renderItem}
-//     />
-//   );
-// };
-
-
-
-
 
 export default Slider;
 

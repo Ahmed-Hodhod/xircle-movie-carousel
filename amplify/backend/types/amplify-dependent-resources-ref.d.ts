@@ -16,5 +16,11 @@ export type AmplifyDependentResourcesAttributes = {
       "UserPoolId": "string",
       "UserPoolName": "string"
     }
+  },
+  "storage": {
+    "s3carouselstoragea9c7473a": {
+      "BucketName": "string",
+      "Region": "string"
+    }
   }
 }

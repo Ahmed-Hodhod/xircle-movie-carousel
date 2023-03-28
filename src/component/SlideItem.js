@@ -8,6 +8,7 @@ import {
   Easing,
 } from 'react-native';
 import React from 'react';
+import { Storage } from 'aws-amplify';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -24,7 +25,7 @@ const SlideItem = ({item}) => {
   return (
     <View style={styles.container}>
       <Animated.Image
-        source= {item.img}
+        source= { async () => await Storage.get('airpod.jpeg') } // Gets welcome.png in public space //{item.img}
         resizeMode="contain"
         style={[
           styles.image,
@@ -39,7 +40,9 @@ const SlideItem = ({item}) => {
       />
 
       <View style={styles.content}>
-        <Text style={styles.title}>{item.title}</Text>
+       <Text style={styles.title}>{item.title}</Text>
+      
+
         <Text style={styles.description}>{item.description}</Text>
         <Text style={styles.price}>{item.year}</Text>
       </View>

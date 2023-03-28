@@ -6,6 +6,6 @@ import { schema } from './schema';
 
 const { Movies } = initSchema(schema);
 
-export  {
+export {
   Movies
 };
