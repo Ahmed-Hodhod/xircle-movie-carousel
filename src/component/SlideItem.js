@@ -22,10 +22,13 @@ const SlideItem = ({item}) => {
     easing: Easing.bounce,
   }).start();
 
+  const bucket = "https://carousel-storage-a9c7473a23809-dev.s3.amazonaws.com/protected/"
+  const image = item.image ? item.image: "default.jpeg"
+  const ImageSource = bucket.concat(image)
   return (
     <View style={styles.container}>
       <Animated.Image
-        source= { async () => await Storage.get('airpod.jpeg') } // Gets welcome.png in public space //{item.img}
+        source={ImageSource}
         resizeMode="contain"
         style={[
           styles.image,

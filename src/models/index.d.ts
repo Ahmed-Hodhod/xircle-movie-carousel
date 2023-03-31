@@ -15,6 +15,7 @@ type EagerMovies = {
   readonly title?: string | null;
   readonly description?: string | null;
   readonly year?: number | null;
+  readonly image?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -28,6 +29,7 @@ type LazyMovies = {
   readonly title?: string | null;
   readonly description?: string | null;
   readonly year?: number | null;
+  readonly image?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
