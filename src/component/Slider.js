@@ -1,8 +1,6 @@
 import {Animated, FlatList, StyleSheet, Text, View} from 'react-native';
 import React, {useRef, useState, useEffect} from 'react';
-import Slides from '../data';
 import SlideItem from './SlideItem';
-import Pagination from './Pagination';
 import { Movies } from '../models';
 import { DataStore, Storage } from 'aws-amplify';
 
@@ -77,7 +75,7 @@ const Slider = () => {
         onViewableItemsChanged={handleOnViewableItemsChanged}
         viewabilityConfig={viewabilityConfig}
       />
-      <Pagination data={movies} scrollX={scrollX} index={index} />
+ 
      
 
 

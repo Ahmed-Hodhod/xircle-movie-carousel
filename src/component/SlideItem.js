@@ -1,5 +1,4 @@
 import {
-  Image,
   StyleSheet,
   Text,
   View,
@@ -8,7 +7,6 @@ import {
   Easing,
 } from 'react-native';
 import React from 'react';
-import { Storage } from 'aws-amplify';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -41,6 +39,7 @@ const SlideItem = ({item}) => {
           },
         ]}
       />
+
 
       <View style={styles.content}>
        <Text style={styles.title}>{item.title}</Text>
